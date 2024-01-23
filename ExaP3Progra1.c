@@ -1,17 +1,23 @@
 #include <stdio.h>
 #include <string.h>
 
-struct alumno
+#define Maxalumnos 50
+
+struct InformacionAlumnos // Se creo una estructura llamada alumno donde en esta va a ir lo que esta contendra como: matricula, nombre, direccion, materia, nota
 {
-    int matriculo;
-    char nombre[50];
-    char direccion[50];
-    char materia[50];
-    float nota;
+    int matricula;      // Variable de tipo entero
+    char nombre[50];    // Variable de tipo caracter
+    char direccion[50]; // Variable de tipo caracter
+    char materia[50];   // Variable de tipo caracter
+    float nota;         // Variable de tipo decimal
 };
+
+void DatosAlumnos(struct InformacionAlumnos alumnos[], int *AlumnoNum);
 
 int main()
 {
+    struct InformacionAlumnos alumnos[Maxalumnos];
+    int AlumnoNum = 0;
     int opcion;
     do
     {
@@ -23,7 +29,7 @@ int main()
         switch (opcion)
         {
         case 1:
-            /* code */
+            DatosAlumnos(alumnos, &AlumnoNum);//Se creo una funcion donde la llamaremos para ingresar datos de los alumnos y se pueda guardar esa informacion
             break;
         case 2:
             break;
@@ -40,4 +46,35 @@ int main()
     } while (opcion != 3);
 
     return 0;
+}
+
+void DatosAlumnos(struct InformacionAlumnos alumnos[], int *AlumnoNum)
+{
+    if (*AlumnoNum < Maxalumnos)
+    {
+        printf("Ingrese el nombre de este alumno: ");
+        fflush(stdin); // Aqui agregamos la funcion fflush para limpiar el buffer y no nos marque error con las funciones gets y puts
+        gets(alumnos[*AlumnoNum].nombre);
+
+        printf("\nIngrese la matricula correspondiente: ");
+        scanf("%d", &alumnos[*AlumnoNum].matricula);
+
+        printf("Ingrese la direccion: ");
+        fflush(stdin);
+        gets(alumnos[*AlumnoNum].direccion);
+
+        printf("Ingrese el nombre carrera : ");
+        fflush(stdin);
+        gets(alumnos[*AlumnoNum].materia);
+
+        printf("Ingrese el promedio de la carrera: ");
+        scanf("%f", &alumnos[*AlumnoNum].nota);
+
+        (*AlumnoNum)++;
+        printf("\tDatos guardados.\n");
+    }
+    else
+    {
+        printf("Se alcanzo el limite.\n"); // Se indica que impprima si es que ya se alcanzo el limite preestabecido al principio
+    }
 }
