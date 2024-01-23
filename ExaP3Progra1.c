@@ -29,7 +29,7 @@ int main()
         switch (opcion)
         {
         case 1:
-            DatosAlumnos(alumnos, &AlumnoNum);//Se creo una funcion donde la llamaremos para ingresar datos de los alumnos y se pueda guardar esa informacion
+            DatosAlumnos(alumnos, &AlumnoNum); // Se creo una funcion donde la llamaremos para ingresar datos de los alumnos y se pueda guardar esa informacion
             break;
         case 2:
             break;
@@ -59,15 +59,15 @@ void DatosAlumnos(struct InformacionAlumnos alumnos[], int *AlumnoNum)
         printf("\nIngrese la matricula correspondiente: ");
         scanf("%d", &alumnos[*AlumnoNum].matricula);
 
-        printf("Ingrese la direccion: ");
+        printf("Ingrese: Direccion: ");
         fflush(stdin);
         gets(alumnos[*AlumnoNum].direccion);
 
-        printf("Ingrese el nombre carrera : ");
+        printf("Ingrese: Nombre Materia : ");
         fflush(stdin);
         gets(alumnos[*AlumnoNum].materia);
 
-        printf("Ingrese el promedio de la carrera: ");
+        printf("Ingrese: Nota ");
         scanf("%f", &alumnos[*AlumnoNum].nota);
 
         (*AlumnoNum)++;
@@ -76,5 +76,30 @@ void DatosAlumnos(struct InformacionAlumnos alumnos[], int *AlumnoNum)
     else
     {
         printf("Se alcanzo el limite.\n"); // Se indica que impprima si es que ya se alcanzo el limite preestabecido al principio
+    }
+}
+
+void guardarDatos(struct InformacionAlumnos alumnos[], int AlumnoNum)
+{
+    FILE *archivo;
+    char unCaracter;
+    archivo = fopen("Datos.txt", "w");
+
+    if (archivo != NULL)
+    {
+        // Imprimir encabezados de tabla
+        fprintf(archivo, "Nombre\tMatricula\tDireccion\tCarrera\tPromedio\n");
+
+        for (int i = 0; i < AlumnoNum; i++)
+        {
+            // Usar tabuladores como separadores
+            fprintf(archivo, "%s\t%d\t%s\t%s\t%.2f\n",
+                    alumnos[i].nombre, alumnos[i].matricula,
+                    alumnos[i].direccion, alumnos[i].materia,
+                    alumnos[i].nota);
+        }
+
+        fclose(archivo);
+        printf("Datos guardados en el archivo.\n");
     }
 }
